@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+    <script src="./tasks.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div ng-app ng-controller="TodoCtrl">
+      <h1>Total todos: {{ getTotalTodos() }}</h1>
+      <ul class="unstyled">
+        <li ng-repeat="todo in todos">
+          <input type="checkbox" ng-model="todo.done" ng-click="getState($index)"> <span class="completed-{{todo.done}}">{{todo.task}}</span>
+        </li>
+      </ul>
+      <div>The state of list is : </div>{{todos}}
+      <div>Here is the latest action : {{state}} </div>
+    </div>
+  </body>
+</html>
