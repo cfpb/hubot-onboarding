@@ -1,8 +1,8 @@
 # hubot-onboarding [![Build Status](https://img.shields.io/travis/catops/hubot-onboarding.svg?maxAge=2592000&style=flat-square)](https://travis-ci.org/catops/hubot-onboarding) [![npm](https://img.shields.io/npm/v/hubot-onboarding.svg?maxAge=2592000&style=flat-square)](https://www.npmjs.com/package/hubot-onboarding)
 
-:cat: Welcome new hires to your organization by gradually providing them scheduled information
+A [Hubot](https://hubot.github.com) script for welcoming new hires to your organization by gradually providing them scheduled information.
 
-See [`src/onboarding.coffee`](src/onboarding.coffee) for full documentation.
+See [`src/chat.coffee`](src/chat.coffee) for full documentation.
 
 ## Installation
 
@@ -18,15 +18,7 @@ Then add **hubot-onboarding** to your `external-scripts.json`:
 
 ## Sample Interaction
 
-```
-user1>> hubot hello
-hubot>> hello!
-```
-
-```
-user1>> hubot orly
-hubot>> yarly
-```
+*Coming soon.*
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 {
   "name": "hubot-onboarding",
-  "description": "Welcome new hires to your organization by gradually providing them scheduled information",
+  "description": "A Hubot script for welcoming new hires to your organization by gradually providing them scheduled information.",
   "version": "1.0.0",
   "author": "Chris Contolini <contolini@users.noreply.github.com>",
   "license": "CC0",
@@ -18,11 +18,14 @@
     "url": "https://github.com/catops/hubot-onboarding/issues"
   },
   "dependencies": {
-    "chrono-node": "^1.2.3",
-    "coffee-script": "~1.10",
-    "connect": "^2.25.10",
-    "edit-google-spreadsheet": "^0.2.21",
-    "promisify-node": "^0.4.0"
+    "chrono-node": "1.2.3",
+    "coffee-script": "1.10",
+    "connect": "2.25.10",
+    "edit-google-spreadsheet": "0.2.21",
+    "hubot-conversation": "1.1.0",
+    "moment": "2.13.0",
+    "onboarding-scheduler": "^1.0.0",
+    "slug": "0.9.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

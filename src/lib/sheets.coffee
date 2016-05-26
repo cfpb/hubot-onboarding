@@ -4,10 +4,13 @@ clientId = process.env.HUBOT_ONBOARDING_GOOGLE_CLIENT_ID
 clientSecret = process.env.HUBOT_ONBOARDING_GOOGLE_CLIENT_SECRET
 refreshToken = process.env.HUBOT_ONBOARDING_GOOGLE_REFRESH_TOKEN
 
+messagesSpreadsheet = process.env.HUBOT_ONBOARDING_SPREADSHEET_MESSAGES
+tasksSpreadsheet = process.env.HUBOT_ONBOARDING_SPREADSHEET_TASKS
+
 sheet =
   getMessages: (discipline, cb) ->
     return Spreadsheet.load {
-      spreadsheetId: '1bXSrtvnXek68Zi0oFby3A5OCTdE0ohrM83rXB342gx4'
+      spreadsheetId: messagesSpreadsheet
       worksheetName: discipline,
       'oauth2':
         'client_id': clientId
@@ -16,11 +19,12 @@ sheet =
     }, (err, spreadsheet) ->
       return console.log err if err
       spreadsheet.receive (err, rows, info) ->
-        cb(rows);
+        return cb err if err
+        cb null, rows
 
   getTasks: (discipline, cb) ->
     return Spreadsheet.load {
-      spreadsheetId: '1TE8QVbLWhAu3gHdG3xmPDCgC6hmzHd1W72vzQsvBMbI'
+      spreadsheetId: tasksSpreadsheet
       worksheetName: discipline,
       'oauth2':
         'client_id': clientId
@@ -29,6 +33,7 @@ sheet =
     }, (err, spreadsheet) ->
       return console.log err if err
       spreadsheet.receive (err, rows, info) ->
-        cb(rows);
+        return cb err if err
+        cb null, rows
 
 module.exports = sheet
