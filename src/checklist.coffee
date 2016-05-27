@@ -29,46 +29,47 @@ connect = require 'connect'
 class Backend
 
   constructor: (@robot) ->
-    @employees = {}
+    @orientations = {}
     @robot.brain.on 'loaded', =>
       # Only continue if an employee has been added or removed
-      return if Object.keys(@employees)?.length == Object.keys(@robot.brain.get('onboarding'))?.length
-      console.log "Initializing onboarding backend..."
-      @employees = @robot.brain.get 'onboarding'
+      return if Object.keys(@orientations)?.length == Object.keys(@robot.brain.get('onboarding'))?.length
+      robot.logger.info "Initializing onboarding backend..."
+      @orientations = @robot.brain.get 'onboarding'
       @createRoutes()
 
+  getTasks: (employee) ->
+    @orientations[employee].tasks
+
+  setTasks: (employee, tasks) ->
+    @orientations[employee].tasks = tasks
+    @robot.brain.set 'onboarding', @orientations
+
   createRoutes: ->
-    for name, info of @employees
+    for name, info of @orientations
       @createChecklistRoute name
 
   createChecklistRoute: (name) ->
     # return if @names[name.slug]?.route?
     route = "/welcome/#{name}"
-    console.log
     @robot.router.stack.splice robot.router.stack.length - 1, 0, {
       route: route
       handle: connect.static path.join(__dirname, '..', 'static')
     }
-    console.log "Created employee checklist for #{name}"
+    robot.logger.info "Created employee checklist for #{name}"
 
 module.exports = (robot) ->
   backend = new Backend robot
 
-  # initialized = false
-  # robot.brain.on 'loaded', ->
-  #   return if initialized
-  #   initialized = true
-  #   users = robot.brain.get 'onboarding'
-  #   for user, info of users
-  #     createChecklist robot, info.username, tasks, console.log
-
-  robot.router.get '/welcome/api/:username', (req, res) ->
+  robot.router.get '/welcome/:username/tasks.json', (req, res) ->
     username = req.params.username
     return res.send {error: "Please specify a username."} unless username
+    res.send backend.getTasks username
 
-    github.request "/users/#{username}", null, (err, data) ->
-      return res.send 404 if err or data.message is 'Not Found'
-      res.send data
+  robot.router.post '/welcome/:username/tasks', (req, res) ->
+    username = req.params.username
+    return res.send 422 unless username
+    backend.setTasks username, req.body.tasks
+
 
   # this is a really dirty JS abusing hack that probably should never be used
   # but it let's us put middleware into the stack even after the app has

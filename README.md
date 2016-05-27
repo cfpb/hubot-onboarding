@@ -1,4 +1,4 @@
-# hubot-onboarding [![Build Status](https://img.shields.io/travis/catops/hubot-onboarding.svg?maxAge=2592000&style=flat-square)](https://travis-ci.org/catops/hubot-onboarding) [![npm](https://img.shields.io/npm/v/hubot-onboarding.svg?maxAge=2592000&style=flat-square)](https://www.npmjs.com/package/hubot-onboarding)
+# hubot-onboarding [![Build Status](https://img.shields.io/travis/cfpb/hubot-onboarding.svg?maxAge=2592000&style=flat-square)](https://travis-ci.org/cfpb/hubot-onboarding) [![npm](https://img.shields.io/npm/v/hubot-onboarding.svg?maxAge=2592000&style=flat-square)](https://www.npmjs.com/package/hubot-onboarding)
 
 A [Hubot](https://hubot.github.com) script for welcoming new hires to your organization by gradually providing them scheduled information.
 

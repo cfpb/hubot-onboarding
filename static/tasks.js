@@ -1,21 +1,30 @@
-function TodoCtrl($scope) {
-  $scope.state = "nada"
-  $scope.todos = [{
-    task: 'Task 1',
-    done: false
-  }, {
-    task: 'Task 2',
-    done: false
-  }, {
-    task: 'Task 3',
-    done: false
-  }];
-  $scope.getTotalTodos = function() {
-    return $scope.todos.length;
+angular
+  .module('employeeTasks', [])
+  .controller('TaskCtrl', TaskCtrl);
+
+function TaskCtrl($scope, $http) {
+  $scope.tasks = [];
+  $scope.state = '';
+
+  $http.get('./tasks.json').
+    success(function(data) {
+      console.log(data);
+      $scope.tasks = data;
+    }).
+    error(function(data, status, headers, config) {
+      console.log(data);
+    });
+
+  $scope.save = function(newVal, oldVal) {
+    console.log(newVal);
+    console.log($scope.tasks);
+    $http.post('./tasks', {tasks: $scope.tasks}).
+      success(function(data) {
+        console.log(data);
+      }).
+      error(function(data, status, headers, config) {
+        console.log(data);
+      });
   };
-  $scope.getState = function(index) {
-    $scope.state = "Todo #" + index + " was clicked"
-  }
 
-
-};
+}

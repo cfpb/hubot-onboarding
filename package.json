@@ -12,10 +12,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/catops/hubot-onboarding.git"
+    "url": "git://github.com/cfpb/hubot-onboarding.git"
   },
   "bugs": {
-    "url": "https://github.com/catops/hubot-onboarding/issues"
+    "url": "https://github.com/cfpb/hubot-onboarding/issues"
   },
   "dependencies": {
     "chrono-node": "1.2.3",
@@ -23,6 +23,7 @@
     "connect": "2.25.10",
     "edit-google-spreadsheet": "0.2.21",
     "hubot-conversation": "1.1.0",
+    "marked": "^0.3.5",
     "moment": "2.13.0",
     "onboarding-scheduler": "^1.0.0",
     "slug": "0.9.1"

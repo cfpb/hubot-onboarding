@@ -5,23 +5,23 @@ class Onboarding
       return if initialized
       initialized = true
       robot.logger.info "Initializing onboarding robot..."
-      @onboarding = @robot.brain.get 'onboarding' or {}
-      @robot.brain.set 'onboarding', @onboarding
+      @orientations = @robot.brain.get 'onboarding' or {}
+      @robot.brain.set 'onboarding', @orientations
 
   addOrientation: (item, cb) ->
-    @onboarding[item.slug] = item
-    @robot.brain.set 'onboarding', @onboarding
+    @orientations[item.slug] = item
+    @robot.brain.set 'onboarding', @orientations
     cb item if cb
 
   removeOrientation: (item) ->
-    delete @onboarding[item.slug]
-    @robot.brain.set 'onboarding', @onboarding
+    delete @orientations[item.slug]
+    @robot.brain.set 'onboarding', @orientations
 
   removeAllOrientations: (item) ->
-    @onboarding = {}
-    @robot.brain.set 'onboarding', @onboarding
+    @orientations = {}
+    @robot.brain.set 'onboarding', @orientations
 
   getOrientations: ->
-    @onboarding
+    @orientations
 
 module.exports = Onboarding

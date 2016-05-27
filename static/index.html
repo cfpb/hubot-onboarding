@@ -3,19 +3,17 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+    <script type="text/javascript" src="./lib/angular.min.js"></script>
     <script src="./tasks.js" charset="utf-8"></script>
   </head>
   <body>
-    <div ng-app ng-controller="TodoCtrl">
-      <h1>Total todos: {{ getTotalTodos() }}</h1>
+    <div ng-app="employeeTasks" ng-controller="TaskCtrl">
+      <h1>New employee tasks</h1>
       <ul class="unstyled">
-        <li ng-repeat="todo in todos">
-          <input type="checkbox" ng-model="todo.done" ng-click="getState($index)"> <span class="completed-{{todo.done}}">{{todo.task}}</span>
+        <li ng-repeat="task in tasks">
+          <input type="checkbox" ng-model="task.completed" ng-click="save()"> <span class="completed-{{task.completed}}">{{ task.title }}</span>
         </li>
       </ul>
-      <div>The state of list is : </div>{{todos}}
-      <div>Here is the latest action : {{state}} </div>
     </div>
   </body>
 </html>
