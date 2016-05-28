@@ -32,7 +32,7 @@ class Backend
     @orientations = {}
     @robot.brain.on 'loaded', =>
       # Only continue if an employee has been added or removed
-      return if Object.keys(@orientations)?.length is Object.keys(@robot.brain.get('onboarding'))?.length
+      return if Object.keys(@orientations).length is Object.keys(@robot.brain.get('onboarding')?).length
       robot.logger.info "Initializing onboarding backend..."
       @orientations = @robot.brain.get 'onboarding'
       @createRoutes()

@@ -1,7 +1,7 @@
 {
   "name": "hubot-onboarding",
   "description": "A Hubot script for welcoming new hires to your organization by gradually providing them scheduled information.",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "author": "Chris Contolini <contolini@users.noreply.github.com>",
   "license": "CC0",
   "keywords": [

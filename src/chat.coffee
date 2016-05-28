@@ -32,7 +32,7 @@ module.exports = (robot) ->
     dialog.timeout = (msg) ->
       robot.logger.info "Onboarding dialogue with #{msg.envelope.user.name} timed out."
 
-    msg.send "Hi #{msg.envelope.user.name}! I'm #{robot.name} -- CFPB's chat bot. Quick question: Are you a new CFPB employee?"
+    msg.send "Hi #{msg.envelope.user.name}! I'm #{robot.name.charAt(0).toUpperCase() + robot.name.slice(1)}, T&I's automated assistant. Quick question: Are you a new CFPB employee?"
 
     dialog.addChoice /(yes|yeah|yup|yep|y)/i, (msg2) ->
       msg2.send "Welcome to the CFPB! 😸  💃"
@@ -41,7 +41,7 @@ module.exports = (robot) ->
         setTimeout(->
           msg2.send "Rather than send you a big list of new employee stuff to do, I'll periodically send you messages with reminders and tasks."
           setTimeout(->
-            msg2.send "But first tell me a bit about yourself. Were you hired as a designer or a developer?"
+            msg2.send "But first tell me a bit about yourself. Which discipline do you fall into: designer or developer?"
           , 5000)
         , 7000)
       , 2000)
