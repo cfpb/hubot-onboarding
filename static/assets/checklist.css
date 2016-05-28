@@ -1,0 +1,11 @@
+li.task {
+  margin-bottom: 1em
+}
+
+li.task .completed-true {
+  text-decoration: line-through;
+}
+
+.intro-message {
+  margin-bottom: 2.75em;
+}

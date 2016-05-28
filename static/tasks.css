@@ -1,8 +1,0 @@
-.completed-true {
-  text-decoration: line-through;
-  opacity: .3;
-}
-
-i.icon-trash {
-  cursor: pointer;
-}

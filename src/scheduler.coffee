@@ -49,8 +49,8 @@ class Scheduler
 module.exports = (robot) ->
   scheduler = new Scheduler robot
 
-  robot.respond /start scheduler/i, (rest) ->
+  robot.respond /onboard(ing)? start scheduler/i, (rest) ->
     scheduler.start()
 
-  robot.respond /stop scheduler/i, (rest) ->
+  robot.respond /onboard(ing)? stop scheduler/i, (rest) ->
     scheduler.stop()

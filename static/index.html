@@ -1,19 +1,60 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
-    <title></title>
-    <script type="text/javascript" src="./lib/angular.min.js"></script>
-    <script src="./tasks.js" charset="utf-8"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consumer Financial Protection Bureau</title>
+    <!--[if lt IE 9]>      <link rel="stylesheet" href="./assets/lib/capital-framework.ie.min.css"> <![endif]-->
+    <!--[if gt IE 8]><!--> <link rel="stylesheet" href="./assets/lib/capital-framework.min.css"> <!--<![endif]-->
+    <link rel="stylesheet" href="./assets/checklist.css">
+    <script type="text/javascript" src="./assets/lib/angular.min.js"></script>
+    <script type="text/javascript" src="./assets/lib/angular-sanitize.min.js"></script>
+    <script src="./assets/tasks.js" charset="utf-8"></script>
+    <script>
+        // Confirm availability of JS and remove no-js class from html
+        var docElement = document.documentElement;
+        docElement.className = docElement.className.replace(/(^|\s)no-js(\s|$)/, '$1$2');
+    </script>
   </head>
   <body>
-    <div ng-app="employeeTasks" ng-controller="TaskCtrl">
-      <h1>New employee tasks</h1>
-      <ul class="unstyled">
-        <li ng-repeat="task in tasks">
-          <input type="checkbox" ng-model="task.completed" ng-click="save()"> <span class="completed-{{task.completed}}">{{ task.title }}</span>
-        </li>
-      </ul>
-    </div>
+
+    <header class="wrapper wrapper__match-content" role="banner">
+        <div class="block block__sub">
+            <h1>Consumer Financial Protection Bureau</h1>
+        </div>
+    </header>
+
+    <main class="content" id="main" role="main" ng-app="employeeTasks" ng-controller="TaskCtrl">
+        <div class="content_bar"></div>
+        <div class="content_wrapper">
+            <div class="content_main">
+                <div class="feature-list">
+
+                    <p class="block u-mt0 intro-message">
+                        Check off your tasks as you complete them. Your ambassador has access to this page and will keep track of your progress.
+                    </p>
+
+                    <section class="feature-list_item">
+
+                        <div class="feature-header">
+                            <h1 class="feature-header_name">Things to do!</h1>
+                        </div>
+
+                        <ul class="list__branded">
+                            <li ng-repeat="task in tasks" class="task">
+                              <label>
+                                <input type="checkbox" ng-model="task.completed" ng-click="save()">
+                                <span class="list_item completed-{{task.completed}}" ng-bind-html="task.title"></span>
+                              </label>
+                            </li>
+                        </ul>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
   </body>
 </html>

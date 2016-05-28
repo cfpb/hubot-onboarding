@@ -18,6 +18,7 @@
     "url": "https://github.com/cfpb/hubot-onboarding/issues"
   },
   "dependencies": {
+    "capital-framework": "^3.5.0",
     "chrono-node": "1.2.3",
     "coffee-script": "1.10",
     "connect": "2.25.10",

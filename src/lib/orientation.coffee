@@ -2,13 +2,12 @@ chrono = require 'chrono-node'
 slug = require 'slug'
 marked = require 'marked'
 format = require 'onboarding-scheduler'
-moment = require 'moment'
 sheets = require './sheets'
 
-CHECKLIST_HOST = "#{process.env.HUBOT_HOSTNAME}/welcome/"
+CHECKLIST_HOST = "#{process.env.HUBOT_HOSTNAME}/checklist/"
 
-create = (info, opts, cb) ->
-  {debug} = opts
+create = (info, cb) ->
+  # {debug} = opts
   orientation =
     username: info.name
     slug: slug info.name, lower: true
@@ -17,7 +16,7 @@ create = (info, opts, cb) ->
     messages: []
     tasks: []
   orientation.checklist = "#{CHECKLIST_HOST}#{orientation.slug}"
-  # status "Getting messages..."
+
   sheets.getMessages orientation.discipline, (err, messages) ->
     return cb err if err
     for message of messages
@@ -29,21 +28,14 @@ create = (info, opts, cb) ->
         sent: false
     orientation.messages = format orientation.messages
 
-    if debug
-      now = moment()
-      orientation.messages.filter (message, i) ->
-        message.title += "\n\n*Originally scheduled for #{message.time}*"
-        message.time = now.add(30, 's').format()
-        return message
-
-    # status "Getting tasks..."
     sheets.getTasks orientation.discipline, (err, tasks) ->
       return cb err if err
       for task of tasks
+        # Remove paragraph tags that wrap the html
+        title = marked(tasks[task][1]).trim().replace(/^(?:<p>)(.*?)(?:<\/p>)$/ig, "$1")
         orientation.tasks.push
-          title: marked tasks[task][1]
+          title: title
           completed: false
-      # status "Adding orientation to DB..."
       cb null, orientation
 
 module.exports = {create}

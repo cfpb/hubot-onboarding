@@ -1,5 +1,5 @@
 angular
-  .module('employeeTasks', [])
+  .module('employeeTasks', ['ngSanitize'])
   .controller('TaskCtrl', TaskCtrl);
 
 function TaskCtrl($scope, $http) {
