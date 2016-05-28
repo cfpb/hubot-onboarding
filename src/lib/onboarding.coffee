@@ -1,11 +1,12 @@
 class Onboarding
   constructor: (@robot) ->
     initialized = false
+    @orientations = {}
     @robot.brain.on 'loaded', =>
       return if initialized
       initialized = true
       robot.logger.info "Initializing onboarding robot..."
-      @orientations = @robot.brain.get 'onboarding' or {}
+      @orientations = @robot.brain.get 'onboarding'
       @robot.brain.set 'onboarding', @orientations
 
   addOrientation: (item, cb) ->
