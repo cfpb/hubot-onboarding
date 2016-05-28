@@ -1,12 +1,9 @@
 # Description:
-#   Backend that handles the behind the scenes for the web based part of the
-#   package.
+#   Schedules messages for new employees.
 #
 # Author
-#   tombell
-#   mattgraham
+#   contolini
 
-schedule = require 'node-schedule'
 moment = require 'moment'
 tickInterval = process.env.HUBOT_ONBOARDING_TICK_INTERVAL_SECONDS || 5
 
