@@ -10,11 +10,11 @@ module.exports = (robot) ->
   initialized = false
   _debug = {}
 
-  @robot.brain.on 'loaded', =>
+  robot.brain.on 'loaded', =>
     return if initialized
     initialized = true
     robot.logger.info "Initializing onboarding admin robot..."
-    _debug.employees = Object.assign({}, @robot.brain.get 'onboarding' or {})
+    _debug.employees = Object.assign({}, robot.brain.get 'onboarding' or {})
 
   # robot.respond /onboard(ing)? debug/i, (res) ->
   #   @HUBOT_ONBOARDING_DEBUG = not not not @HUBOT_ONBOARDING_DEBUG
@@ -26,7 +26,7 @@ module.exports = (robot) ->
   robot.respond /onboard(ing)? next/i, (res) ->
     employee = slug res.envelope.user.name, lower: true
     if not _debug.employees[employee].messages?.length
-      _debug.employees[employee] = Object.assign({}, @robot.brain.get('onboarding')[employee] or {}) 
+      _debug.employees[employee] = Object.assign({}, robot.brain.get('onboarding')[employee] or {})
     _debug.employees[employee].messages = _debug.employees[employee].messages.filter (message, i) ->
       return not message.sent
 
@@ -35,5 +35,5 @@ module.exports = (robot) ->
     res.send msg
 
   robot.respond /delete onboard(ing)?s?/i, (res) ->
-    @robot.brain.set 'onboarding', {}
+    robot.brain.set 'onboarding', {}
     res.send "Okay, I deleted all onboardings."
