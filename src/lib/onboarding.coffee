@@ -7,6 +7,7 @@ class Onboarding
       initialized = true
       robot.logger.info "Initializing onboarding robot..."
       @orientations = @robot.brain.get 'onboarding'
+      @orientations = @orientations or {}
       @robot.brain.set 'onboarding', @orientations
 
   addOrientation: (item, cb) ->
