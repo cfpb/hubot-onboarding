@@ -30,9 +30,11 @@ class Backend
 
   constructor: (@robot) ->
     @orientations = {}
+    initialized = false
     @robot.brain.on 'loaded', =>
       # Only continue if an employee has been added or removed
-      return if Object.keys(@orientations).length is Object.keys(@robot.brain.get('onboarding')?).length
+      return if (Object.keys(@orientations).length is Object.keys(@robot.brain.get('onboarding')?).length) and initialized
+      initialized = true
       robot.logger.info "Initializing onboarding backend..."
       @orientations = @robot.brain.get 'onboarding'
       @createRoutes()
@@ -51,11 +53,11 @@ class Backend
   createChecklistRoute: (name) ->
     # return if @names[name.slug]?.route?
     route = "/checklist/#{name}"
-    @robot.router.stack.splice robot.router.stack.length - 1, 0, {
+    @robot.router.stack.splice @robot.router.stack.length - 1, 0, {
       route: route
       handle: connect.static path.join(__dirname, '..', 'static')
     }
-    robot.logger.info "Created employee checklist for #{name}"
+    @robot.logger.info "Created employee checklist for #{name}"
 
 module.exports = (robot) ->
   backend = new Backend robot

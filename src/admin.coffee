@@ -8,7 +8,7 @@ slug = require 'slug'
 
 module.exports = (robot) ->
   initialized = false
-  _debug = {}
+  _debug = {employees: {}}
 
   robot.brain.on 'loaded', =>
     return if Object.keys(_debug).length is Object.keys(robot.brain.get('onboarding')?).length
@@ -24,10 +24,8 @@ module.exports = (robot) ->
 
   robot.respond /onboard(ing)? next/i, (res) ->
     employee = slug res.envelope.user.name, lower: true
-    if not _debug.employees[employee]?.messages?.length
+    if not _debug.employees[employee].messages.length
       _debug.employees[employee] = Object.assign({}, robot.brain.get('onboarding')[employee] or {})
-    _debug.employees[employee].messages = _debug.employees[employee].messages.filter (message, i) ->
-      return not message.sent
 
     msg = _debug.employees[employee].messages.shift()
     msg = "#{msg.title}\n\n*Originally scheduled for #{msg.time}*"

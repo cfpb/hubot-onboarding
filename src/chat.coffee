@@ -41,7 +41,7 @@ module.exports = (robot) ->
         setTimeout(->
           msg2.send "Rather than send you a big list of new employee stuff to do, I'll periodically send you messages with reminders and tasks."
           setTimeout(->
-            msg2.send "But first tell me a bit about yourself. Which discipline do you fall into: designer or developer?"
+            msg2.send "But first tell me a bit about yourself. Which category best describes you: designer or developer?"
           , 5000)
         , 7000)
       , 2000)
