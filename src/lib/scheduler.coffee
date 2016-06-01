@@ -5,35 +5,40 @@
 #   contolini
 
 moment = require 'moment'
+# Brain = require './lib/brain'
 tickInterval = process.env.HUBOT_ONBOARDING_TICK_INTERVAL_SECONDS || 5
 
 class Scheduler
 
-  constructor: (@robot) ->
+  constructor: (@robot, @brain) ->
+    # @brain = new Brain
     @orientations = {}
-    @robot.brain.on 'loaded', =>
-      # Only continue if an employee has been added or removed
-      return if Object.keys(@orientations).length == Object.keys(@robot.brain.get('onboarding')?).length
-      robot.logger.info "Initializing onboarding scheduler..."
-      @orientations = @robot.brain.get 'onboarding'
+
+    @brain.on 'loaded', (data) =>
+      @orientations = data
       @start()
+
+    @brain.on 'saved', (data) =>
+      @orientations = data
 
   sendMessage: (room, msg) ->
     @robot.messageRoom room, msg
 
   saveMessages: ->
-    @robot.brain.set 'onboarding', @orientations
+    @brain.set @orientations
 
   tick: ->
     now = moment()
+    somethingWasSent = false
     for name, info of @orientations
       for message in info.messages
         if not message.sent
           buffer = moment(message.time).clone().add(tickInterval * 2, 's');
           if now.isBetween moment(message.time), buffer
             @robot.messageRoom info.username, message.title
+            somethingWasSent = true
             message.sent = true
-    @saveMessages()
+    @saveMessages() if somethingWasSent
 
   start: ->
     @ticker = setInterval(=>
@@ -43,11 +48,4 @@ class Scheduler
   stop: ->
     clearInterval @ticker
 
-module.exports = (robot) ->
-  scheduler = new Scheduler robot
-
-  robot.respond /onboard(ing)? start scheduler/i, (rest) ->
-    scheduler.start()
-
-  robot.respond /onboard(ing)? stop scheduler/i, (rest) ->
-    scheduler.stop()
+module.exports = Scheduler

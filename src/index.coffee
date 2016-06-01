@@ -18,13 +18,44 @@
 #   contolini
 
 Conversation = require 'hubot-conversation'
-Onboarding = require './lib/onboarding'
+Brain = require './lib/brain'
+Checklist = require './lib/checklist'
+Scheduler = require './lib/scheduler'
 orientation = require './lib/orientation'
 
-module.exports = (robot) ->
-  onboarding = new Onboarding robot
-  switchBoard = new Conversation robot
+orientations = {}
 
+module.exports = (robot) ->
+  brain = new Brain robot
+  switchBoard = new Conversation robot
+  checklist = new Checklist robot, brain
+  scheduler = new Scheduler robot, brain
+
+  # HTML checklists
+  robot.router.get '/checklist/:username/tasks.json', (req, res) ->
+    username = req.params.username
+    return res.send {error: "Please specify a username."} unless username
+    res.send checklist.getTasks username
+
+  robot.router.post '/checklist/:username/tasks', (req, res) ->
+    username = req.params.username
+    return res.send 422 unless username
+    checklist.setTasks username, req.body.tasks
+    res.send 200
+
+  # Admin stuff to aid debugging
+  robot.respond /delete onboard(ing)?s?/i, (res) =>
+    brain.set {}
+    res.send "Okay, I deleted all onboardings."
+
+  robot.respond /onboard(ing)? start scheduler/i, (rest) ->
+    scheduler.start()
+
+  robot.respond /onboard(ing)? stop scheduler/i, (rest) ->
+    scheduler.stop()
+
+  # Onboarding communications
+  # @TODO: clean this up so that it's not callback hell
   robot.respond /(hi|hello|how are you)/i, (msg) ->
     newEmployee =
       name: msg.envelope.user.name
@@ -53,7 +84,8 @@ module.exports = (robot) ->
           msg3.send "That's all the info I need for now! Expect some automated onboarding messages from me soon. Have a great day. 😃"
         , 3000)
         orientation.create newEmployee, (err, orientation) ->
-          onboarding.addOrientation orientation
+          orientations[orientation.slug] = orientation
+          brain.set orientations
 
       dialog.addChoice /design(er)?/i, (msg3) ->
         newEmployee.discipline = 'designer'
@@ -62,7 +94,8 @@ module.exports = (robot) ->
           msg3.send "That's all the info I need for now! Expect some automated onboarding messages from me soon. Have a great day. 😃"
         , 3000)
         orientation.create newEmployee, (err, orientation) ->
-          onboarding.addOrientation orientation
+          orientations[orientation.slug] = orientation
+          brain.set orientations
 
     dialog.addChoice /(no|nope|nah|negative)/i, (msg2) ->
       msg2.send "Okay, cool. I have some automated messages that I send to new employees but I won't send them to you."

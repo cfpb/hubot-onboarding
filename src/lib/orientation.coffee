@@ -2,6 +2,7 @@ chrono = require 'chrono-node'
 slug = require 'slug'
 marked = require 'marked'
 format = require 'onboarding-scheduler'
+moment = require 'moment';
 sheets = require './sheets'
 
 CHECKLIST_HOST = "#{process.env.HUBOT_HOSTNAME}/checklist/"
@@ -27,6 +28,11 @@ create = (info, cb) ->
         day: messages[message][2].replace 'Day ', ''
         sent: false
     orientation.messages = format orientation.messages
+    if process.env.HUBOT_ONBOARDING_DEBUG
+      now = moment(new Date()).utcOffset '-04:00'
+      orientation.messages.map (message) ->
+        message.time = now.add(15, 's').format()
+        return message
 
     sheets.getTasks orientation.discipline, (err, tasks) ->
       return cb err if err
