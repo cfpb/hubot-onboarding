@@ -10,11 +10,11 @@ module.exports = (robot) ->
   initialized = false
   _debug = {}
 
-  @robot.brain.on 'loaded', =>
+  robot.brain.on 'loaded', =>
     return if initialized
     initialized = true
     robot.logger.info "Initializing onboarding admin robot..."
-    _debug.employees = @robot.brain.get 'onboarding' or {}
+    _debug.employees = robot.brain.get 'onboarding' or {}
 
   robot.respond /onboard(ing)? debug/i, (res) ->
     process.env.HUBOT_ONBOARDING_DEBUG = not not not process.env.HUBOT_ONBOARDING_DEBUG
