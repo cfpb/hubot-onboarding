@@ -25,7 +25,7 @@
         </div>
     </header>
 
-    <main class="content" id="main" role="main" ng-app="employeeTasks" ng-controller="TaskCtrl">
+    <main class="content" id="main" role="main" ng-app="employeeTasks" >
         <div class="content_bar"></div>
         <div class="content_wrapper">
             <div class="content_main">
@@ -35,7 +35,9 @@
                         Check off your tasks as you complete them. Your ambassador has access to this page and will keep track of your progress.
                     </p>
 
-                    <section class="feature-list_item">
+                    <section class="feature-list_item" ng-controller="TaskCtrl">
+                        <div data-ng-show="getFailed" data-ng-bind="getErrorText"></div>
+                        <div data-ng-show="saveFailed" data-ng-bind="saveErrorText"></div>
 
                         <div class="feature-header">
                             <h1 class="feature-header_name">Things to do!</h1>
