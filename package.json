@@ -28,6 +28,7 @@
     "marked": "^0.3.5",
     "moment": "2.13.0",
     "onboarding-scheduler": "^1.0.0",
+    "read2me": "^1.0.1",
     "slug": "0.9.1"
   },
   "devDependencies": {

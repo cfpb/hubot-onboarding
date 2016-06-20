@@ -2,9 +2,9 @@
 #   Welcome new hires to your organization by gradually providing them scheduled information
 #
 # Configuration:
-#   HUBOT_ONBOARDING_GOOGLE_CLIENT_ID - Describe your environment variable.
-#   HUBOT_ONBOARDING_GOOGLE_CLIENT_SECRET - Describe your environment variable.
-#   HUBOT_ONBOARDING_GOOGLE_REFRESH_TOKEN - Describe your environment variable.
+#   HUBOT_ONBOARDING_GOOGLE_CLIENT_ID - Google Docs OAUTH2 client ID
+#   HUBOT_ONBOARDING_GOOGLE_CLIENT_SECRET - Google Docs OAUTH2 client secret
+#   HUBOT_ONBOARDING_GOOGLE_REFRESH_TOKEN - Google Docs OAUTH2 refresh token
 #   HUBOT_ONBOARDING_SPREADSHEET_MESSAGES - Google Spreadsheet ID # that contains your onboarding messages.
 #   HUBOT_ONBOARDING_SPREADSHEET_TASKS - Google Spreadsheet ID # that contains your onboarding tasks.
 #   HUBOT_ONBOARDING_EMPLOYEE_INFO_PAGE - URL of webpage that lists all sort of useful things (e.g. HR, payroll, conf room links)
@@ -18,6 +18,7 @@
 #   contolini
 
 Conversation = require 'hubot-conversation'
+read2me = require 'read2me'
 Brain = require './lib/brain'
 Checklist = require './lib/checklist'
 Scheduler = require './lib/scheduler'
@@ -66,33 +67,34 @@ module.exports = (robot) ->
     msg.send "Hi #{msg.envelope.user.name}! I'm #{robot.name.charAt(0).toUpperCase() + robot.name.slice(1)}, T&I's automated assistant. Quick question: Are you a new CFPB employee?"
 
     dialog.addChoice /(yes|yeah|yup|yep|y)/i, (msg2) ->
-      msg2.send "Welcome to the CFPB! 😸  💃"
-      setTimeout(->
-        msg2.send "I'm a basic chat bot built by the people in this office to help you get acquainted with your new job. Someday, I aspire to be Bender from Futurama. http://i.giphy.com/vSoHbyABFCunS.gif"
-        setTimeout(->
-          msg2.send "Rather than send you a big list of new employee stuff to do, I'll periodically send you messages with reminders and tasks."
-          setTimeout(->
-            msg2.send "But first tell me a bit about yourself. Which category best describes you: designer or developer?"
-          , 5000)
-        , 7000)
-      , 2000)
+      read2me [
+        "Welcome to the CFPB! 😸 💃",
+        "I'm a basic chat bot built by the people in this office to help you get acquainted with your new job. Someday, I aspire to be Bender from Futurama. https://i.imgur.com/Zm4qfCf.gif",
+        "Rather than send you a big list of new employee stuff to do, I'll periodically send you messages with reminders and tasks.",
+        "But first tell me a bit about yourself. Which category best describes you: designer or developer?"
+      ], (message) ->
+        msg2.send message
 
       dialog.addChoice /dev(eloper)?/i, (msg3) ->
         newEmployee.discipline = 'developer'
-        msg3.send "Awesome -- a new developer! :neckbeard: Someone to build me some new features. 😉"
-        setTimeout(->
-          msg3.send "That's all the info I need for now! Expect some automated onboarding messages from me soon. Have a great day. 😃"
-        , 3000)
+        read2me [
+          "Awesome -- a new developer! :neckbeard: Someone to build me some new features. 😉",
+          "That's all the info I need for now! Expect some automated onboarding messages from me soon. Have a great day. 😃"
+        ], (message) ->
+          msg2.send message
+
         orientation.create newEmployee, (err, orientation) ->
           orientations[orientation.slug] = orientation
           brain.set orientations
 
       dialog.addChoice /design(er)?/i, (msg3) ->
         newEmployee.discipline = 'designer'
-        msg3.send "Nice -- a new designer! 👏 Someone to keep our products user-friendly. 😉"
-        setTimeout(->
-          msg3.send "That's all the info I need for now! Expect some automated onboarding messages from me soon. Have a great day. 😃"
-        , 3000)
+        read2me [
+          "Nice -- a new designer! 👏 Someone to keep our products user-friendly. 😉",
+          "That's all the info I need for now! Expect some automated onboarding messages from me soon. Have a great day. 😃"
+        ], (message) ->
+          msg2.send message
+
         orientation.create newEmployee, (err, orientation) ->
           orientations[orientation.slug] = orientation
           brain.set orientations

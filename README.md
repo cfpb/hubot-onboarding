@@ -1,8 +1,17 @@
 # hubot-onboarding [![Build Status](https://img.shields.io/travis/cfpb/hubot-onboarding.svg?maxAge=2592000&style=flat-square)](https://travis-ci.org/cfpb/hubot-onboarding) [![npm](https://img.shields.io/npm/v/hubot-onboarding.svg?maxAge=2592000&style=flat-square)](https://www.npmjs.com/package/hubot-onboarding)
 
-A [Hubot](https://hubot.github.com) script for welcoming new hires to your organization by gradually providing them scheduled information.
+A [Hubot](https://hubot.github.com) script for welcoming new hires to your organization by gradually providing them scheduled information. Uses Google Docs as a backend to make maintenance as easy as updating a spreadsheet. Inspired by [Dolores Landingham](https://github.com/18F/dolores-landingham-bot).
 
-See [`src/chat.coffee`](src/chat.coffee) for full documentation.
+![hubot-onboarding screenshot](screenshot.png)
+
+Three features are provided out of the box:
+
+1. **Message scheduler** - Send custom messages to new employees at set intervals
+1. **Task manager** - Dynamically generated HTML checklist of to-dos with webhooks to allow event-driven messaging
+1. **Glossary** - Saying certain keywords to the bot triggers custom responses
+
+See [`src/index.coffee`](src/index.coffee) for documentation.
+This project is in alpha and documentation will be improved as we enter beta.
 
 ## Installation
 
